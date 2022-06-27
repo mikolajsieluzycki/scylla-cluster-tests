@@ -266,6 +266,7 @@ class CDCQueryFilterCS(QueryFilterCS, CDCQueryFilter):
         return self._PROFILE_PARAMS if 'profiles' in self.test_name else self._PARAMS
 
 
-def query_filter(test_doc, is_gce, use_wide_query=False, lastyear=False):
-    return PerformanceFilterScyllaBench(test_doc, is_gce)() if test_doc['_source']['test_details'].get('scylla-bench') \
-        else PerformanceFilterCS(test_doc, is_gce, use_wide_query, lastyear)()
+class LatencyWithNemesisQueryFilter(QueryFilterCS, PerformanceQueryFilter):
+
+    def filter_by_dashboard_query(self):
+        return "latency_during_ops: *"
